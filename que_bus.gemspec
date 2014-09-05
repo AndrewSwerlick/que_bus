@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "que_bus"
   spec.version       = QueBus::VERSION
   spec.authors       = ["Andrew Swerlick"]
-  spec.email         = ["andrew.swerlick@hbdi.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.email         = ["andrew.swerlick@gmail.com"]
+  spec.summary       = %q{An event bus based on the que queing framework}
+  spec.description   = %q{An event bus based on the que queing framework}
   spec.homepage      = ""
   spec.license       = "MIT"
 
