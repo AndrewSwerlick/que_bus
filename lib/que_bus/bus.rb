@@ -1,5 +1,3 @@
-require 'securerandom'
-require 'que'
 
 module QueBus
   class Bus
@@ -8,9 +6,9 @@ module QueBus
       @subscriber_classes = {}
     end
 
-    def publish(channel=nil, message)
+    def publish(message, opts=nil)
       @subscriber_classes.each do |k,v|
-        v.enqueue(message)
+        v.enqueue(message, opts)
       end
     end
 
@@ -21,7 +19,7 @@ module QueBus
       klass = Class.new(Que::Job)
       klass.class_exec(b) do |b|
         klass.const_set "BLOCK", b
-        def run(message)
+        def run(message, options)
           block = self.class.const_get("BLOCK")
           block.call if block
         end
