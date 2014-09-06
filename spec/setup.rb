@@ -10,3 +10,4 @@ ActiveRecord::Base.establish_connection(
 
 Que.connection = ActiveRecord
 Que.migrate!
+QueBus.migrate!
