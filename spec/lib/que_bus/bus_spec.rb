@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 describe Bus do
   describe "when we create a new bus" do
-    let(:bus) {Bus.new}
+    let(:bus) {Bus.new }
 
     describe "and subscribe the bus" do
       before do
@@ -32,6 +32,36 @@ describe Bus do
       end
     end
 
+    describe "when we subscribe to the bus with a block and publish a message" do
+      before do
+        bus.subscribe do
+          @event_recieved = true
+        end
+        bus.publish({test: "Test"})
+      end
+
+      it "recieved the event" do
+        @event_recieved.must_equal true
+      end
+    end
+
+    describe "when we subscribe to the bus twice with a block and publish a message" do
+      before do
+        bus.subscribe do
+          @event1_recieved = true
+        end
+        bus.subscribe do
+          @event2_recieved = true
+        end
+
+        bus.publish({test: "test"})
+      end
+
+      it "recieves both events" do
+        @event1_recieved.must_equal true
+        @event2_recieved.must_equal true
+      end
+    end
 
     it "allows us to subscribe to all channels on the bus" do
       bus.subscribe
