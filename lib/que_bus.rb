@@ -12,6 +12,8 @@ module QueBus
     Migrations.migrate!(version)
   end
 
+  #disable Que so it doesn't create workers to process things.
+  #We manage our own workers using the BusWorker class
   Que.mode = :off
 
   BusWorker.mode = :async

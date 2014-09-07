@@ -4,7 +4,6 @@ require 'byebug'
 require 'database_cleaner'
 require_relative 'setup'
 
-Que.mode = :sync
 DatabaseCleaner.strategy = :transaction
 
 class MiniTest::Spec
@@ -13,6 +12,8 @@ class MiniTest::Spec
     QueBus::Jobs.constants.each do |c|
       QueBus::Jobs.send(:remove_const, c)
     end
+    Que.mode = :sync
+
   end
 
   after :each do
