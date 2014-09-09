@@ -6,16 +6,16 @@ require_relative 'setup'
 require 'evented-spec'
 
 
-
 class MiniTest::Spec
   before :each do
-    DatabaseCleaner.strategy = :transaction
+    QueBus::BusWorker.wake_interval = 0.1
+    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.start
     QueBus::Jobs.constants.each do |c|
       QueBus::Jobs.send(:remove_const, c)
     end
-    Que.mode = :sync
-
+    Que.mode = :off
+    QueBus::BusWorker.mode = :async
   end
 
   after :each do

@@ -8,7 +8,6 @@ module QueBus
 
       def mode=(mode)
         @mode = mode
-        @wake_interval = 5
         if mode == :async
           wrangler
         end

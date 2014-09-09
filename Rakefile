@@ -3,9 +3,18 @@ require "bundler/gem_tasks"
 
 require 'rake/testtask'
 
-Rake::TestTask.new do |t|
-  t.libs << 'lib/que_bus'
-  t.test_files = FileList['spec/lib/que_bus/*_spec.rb']
+
+namespace :test do
+  Rake::TestTask.new(:sync) do |t|
+    t.libs << 'lib/que_bus'
+    t.test_files = FileList['spec/lib/que_bus/*_spec.rb'].exclude('spec/lib/que_bus/async_*_spec.rb')
+  end
+
+  Rake::TestTask.new(:async) do |t|
+    t.test_files = FileList['spec/lib/que_bus/async_*_spec.rb']
+  end
+
+  task :default => :sync
 end
 
 task :irb do
@@ -16,4 +25,4 @@ task :irb do
   IRB.start
 end
 
-task :default => :test
+task :default => "test:default"
