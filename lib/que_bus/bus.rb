@@ -5,8 +5,11 @@ module QueBus
       Subscriber.all
     end
 
-    def publish(message, opts=nil)
-      subscribers.each do |sub|
+    def publish(message, opts={})
+      subs = subscribers
+      subs = subs.select{|s| s.topics.include? opts[:topics] } if opts[:topics]
+
+      subs.each do |sub|
         options = (opts || {}).clone
         options[:job_class] = sub.job_class
         options[:queue] = sub.subscriber_id
@@ -14,12 +17,24 @@ module QueBus
       end
     end
 
-    def subscribe(id=nil, channel=nil, &block)
-      b = block
+    def subscribe(opts={}, &block)
+      options = opts
+      id = opts if opts.kind_of? String
+      options = {} if opts.kind_of? String
+
+      topics = options[:topics]
+      topics = [*topics]
+
       sub_id = id || SecureRandom.uuid
       const_name = create_class(sub_id, block)
       subscriber = Subscriber.find_by_subscriber_id(sub_id)
-      subscriber = subscriber || Subscriber.create(subscriber_id: sub_id, job_class: const_name)
+      subscriber = subscriber ||
+        Subscriber.create(
+          subscriber_id: sub_id,
+          job_class: const_name,
+          topics: topics
+      )
+
       create_worker(sub_id)
       sub_id
     end

@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 
 describe Bus do
-  describe "when we create a new bus and run it in async mode" do
+  describe "when we create a new bus" do
     let(:bus) {Bus.new }
 
     describe "and subscribe the bus" do
@@ -69,16 +69,45 @@ describe Bus do
       end
     end
 
-    it "allows us to subscribe to all channels on the bus" do
-      bus.subscribe
+    describe "when we subscribe to a specific channel" do
+      before do
+        bus.subscribe(:topics=> "foo") do
+          @foo_event_called = true
+        end
+      end
+
+      describe "and we publish to the same channel" do
+        before do
+          bus.publish("hey foo", :topics => "foo")
+        end
+
+        it "recieves the foo event" do
+          @foo_event_called.must_equal true
+        end
+      end
+
+      describe "and we publish on a different channel" do
+        before do
+          bus.publish("hey foo",:topics=> "bar")
+        end
+
+        it "does not recieve the foo event" do
+          @foo_event_called.must_be_nil
+        end
+      end
+
+      describe "and we publish with no defined channel" do
+        before do
+          bus.publish("hey foo")
+        end
+
+        it "recieves the message" do
+          @foo_event_called.must_equal true
+        end
+      end
     end
 
-    it "allows us to publish to a channel" do
-      bus.publish("foo", {test: "test"})
-    end
 
-    it "allows us to publish to all listeners on the bus" do
-      bus.publish({test:"test"})
-    end
+
   end
 end
