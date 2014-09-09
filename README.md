@@ -1,6 +1,6 @@
 # QueBus
 
-TODO: Write a gem description
+An event bus built on top of the que queueing library.
 
 ## Installation
 
