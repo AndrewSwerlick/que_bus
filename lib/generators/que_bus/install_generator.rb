@@ -1,10 +1,10 @@
 module QueBus
   class InstallGenerator < Rails::Generators::Base
     def create_initializer_file
-      create_file "config/initializers/que_bus.rb", self.contents
+      create_file "config/initializers/que_bus.rb", contents
     end
 
-    def self.contents
+    def contents
       %{
         #Turns the bus off. This is default for rails because generally the bus will run in a rake task
         QueBus.mode = :off
