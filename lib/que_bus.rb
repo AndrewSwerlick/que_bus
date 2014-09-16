@@ -32,5 +32,5 @@ module QueBus
     BusWorker.mode = mode
   end
 
-require 'que_bus/railtie' if defined? Rails::Railtie
+  #require 'que_bus/railtie' if defined? Rails::Railtie
 end
