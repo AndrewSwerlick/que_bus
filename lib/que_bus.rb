@@ -17,4 +17,18 @@ module QueBus
   Que.mode = :off
 
   BusWorker.mode = :async
+
+  def mode
+    BusWorker.mode
+  end
+
+  def mode=(mode)
+    if mode == :sync
+      Que.mode = :sync
+    else
+      Que.mode = :off
+    end
+    
+    BusWorker.mode = mode
+  end
 end

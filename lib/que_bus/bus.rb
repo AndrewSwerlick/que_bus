@@ -41,7 +41,7 @@ module QueBus
 
     private
     def queue_job(subscriber, message, options)
-      #if running in the same process, load the class to ensure sync mode work
+      #if running in the same process, load the class to ensure sync mode works
       #if we aren't running the same process, fallback to the base Que::Job class
       klass = subscriber.job_class.constantize rescue Que::Job
       klass.enqueue(message, options)

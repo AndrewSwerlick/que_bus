@@ -14,7 +14,7 @@ class MiniTest::Spec
     QueBus::Jobs.constants.each do |c|
       QueBus::Jobs.send(:remove_const, c)
     end
-    Que.mode = :sync
+    QueBus.mode = :sync
 
   end
 
