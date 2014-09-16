@@ -1,6 +1,6 @@
-class InitializerGenerator < Rails::Generators::Base
+class InstallGenerator < Rails::Generators::Base
   namespace 'quebus:install'
-  
+
   def create_initializer_file
     create_file "config/initializers/que_bus.rb", self.contents
   end
