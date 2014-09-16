@@ -21,7 +21,7 @@ task :irb do
   require_relative 'spec/interactive_helper'
   require 'irb'
   ARGV.clear
-  Que.mode = :async
+  QueBus.mode = :async
   IRB.start
 end
 
