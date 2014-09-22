@@ -8,28 +8,34 @@ module QueBus
   autoload :Subscriber, "que_bus/subscriber"
   autoload :BusWorker, "que_bus/bus_worker"
 
-  def migrate!(version = {:version => Migrations::CURRENT_VERSION})
-    Migrations.migrate!(version)
+  # monkey patch Que so it doesn't generate it's own workers. We manage our own
+  # workers int he BusWorker class
+  class << Que::Worker
+    def set_up_workers
+    end
   end
-
-  #disable Que so it doesn't create workers to process things.
-  #We manage our own workers using the BusWorker class
-  Que.mode = :off
 
   BusWorker.mode = :async
 
-  def mode
-    BusWorker.mode
-  end
+  class << self
+    attr_reader :jobs_array
 
-  def mode=(mode)
-    if mode == :sync
-      Que.mode = :sync
-    else
-      Que.mode = :off
+    def migrate!(version = {:version => Migrations::CURRENT_VERSION})
+      Migrations.migrate!(version)
     end
 
-    BusWorker.mode = mode
+    def mode
+      BusWorker.mode
+    end
+
+    def mode=(mode)
+      Que.mode = mode
+      BusWorker.mode = mode
+    end
+
+    def jobs(&block)
+      @jobs_array = (@jobs_array || []) << block
+    end
   end
 
   require 'que_bus/railtie' if defined? Rails::Railtie

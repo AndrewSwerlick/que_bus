@@ -59,7 +59,7 @@ module QueBus
       end
       class_name = "Job#{sub_id.gsub("-","_")}"
       Jobs.const_set(class_name, klass)
-      "Jobs::#{class_name}"
+      "QueBus::Jobs::#{class_name}"
     end
 
     def create_worker(sub_id)
