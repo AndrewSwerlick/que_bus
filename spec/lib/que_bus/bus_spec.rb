@@ -16,11 +16,11 @@ describe Bus do
 
     describe "when we subscribe to the bus with our own id" do
       before do
-        @id = bus.subscribe("test")
+        @id = bus.subscribe :test
       end
 
       it "gives us the same id back" do
-        @id.must_equal "test"
+        @id.must_equal :test
       end
     end
 

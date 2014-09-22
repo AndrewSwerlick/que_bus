@@ -19,14 +19,14 @@ module QueBus
 
     def subscribe(opts={}, &block)
       options = opts
-      id = opts if opts.kind_of? String
-      options = {} if opts.kind_of? String
+      id = opts if opts.kind_of?(String) || opts.is_a?(Symbol)
+      options = {} if opts.kind_of?(String) || opts.is_a?(Symbol)
 
       topics = options[:topics]
       topics = [*topics]
 
       sub_id = id || SecureRandom.uuid
-      const_name = create_class(sub_id, block)
+      const_name = create_class(sub_id.to_s, block)
       subscriber = Subscriber.find_by_subscriber_id(sub_id)
       subscriber = subscriber ||
         Subscriber.create(
