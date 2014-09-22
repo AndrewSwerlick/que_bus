@@ -90,7 +90,11 @@ Not you can only publish to a single topic at a time
 ### Using in rails
 The recommended way to use QueBus with rails is through the provided rake task.
 Once you have setup your subscribers in the initializer you can have a listener running
-in a separate process by running the command rake quebus:listen. This will start a continually
+in a separate process by running the command
+
+    rake quebus:listen. 
+
+This will start a continually
 running rake task that contains all your subscribers and can execute your job code when
 new events are published to the bus.
 
