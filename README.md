@@ -87,6 +87,31 @@ To publish to only subscribers for a certain topic, call publish with the topic 
 
 Not you can only publish to a single topic at a time
 
+### Using in rails
+The recommended way to use QueBus with rails is through the provided rake task.
+Once you have setup your subscribers in the initializer you can have a listener running
+in a separate process by running the command rake quebus:listen. This will start a continually
+running rake task that contains all your subscribers and can execute your job code when
+new events are published to the bus.
+
+If you want your event bus subscribers running in the same process as your webserver
+you can change the first line of the initializer from
+
+    QueBus.mode = :off
+
+to
+
+    QueBus.mode = :async
+
+
+## How it works
+
+QueBus is built on top of the [que](https://github.com/chanks/que) job queue library.
+Basically for each subscriber, QueBus creates a separate que queue, as well as dynamically generating
+a class that contains the block passed to the subscribe method. When the developer calls bus.publish
+QueBus loops through all the subscribers and creates new jobs for each one that has subscribed to
+the relevant topic. The underlying Que library executes those jobs.
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/que_bus/fork )
