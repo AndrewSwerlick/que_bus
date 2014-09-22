@@ -1,3 +1,4 @@
+# copied from the que library. TODO: determine if there's a better way to handle
 module QueBus
   module Migrations
     # In order to ship a schema change, add the relevant up and down sql files

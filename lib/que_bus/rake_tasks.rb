@@ -3,6 +3,7 @@ namespace :quebus do
   task :listen => :environment do
     QueBus.mode = :async
 
+    # TODO: add a noisy failure that prompts the user to run rake quebus:migrate
     if QueBus::Migrations.db_version == QueBus::Migrations::CURRENT_VERSION
       QueBus.jobs_array.each do |b|
         b.call

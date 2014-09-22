@@ -66,7 +66,11 @@ Note a new anonymous subscription will be created every single time the code is 
 This means if you have multiple copies of the rake task, or you stop and restart the rake task,
 QueBus will potentially have two different subscribers running the same code. This is usually not
 what you want, so we recommend you always provide a subscription name. QueBus uses the name to make sure
-no subscriber is added twice
+no subscriber is added twice.
+
+If you choose to create an anonymous subscription QueBus automatically generates a GUID to
+identify your subscription. This GUID is returned by the subscribe method, and you can use it
+to identify the subscription later.
 
 ### Publishing to the bus
 

@@ -9,7 +9,8 @@ module QueBus
   autoload :BusWorker, "que_bus/bus_worker"
 
   # monkey patch Que so it doesn't generate it's own workers. We manage our own
-  # workers int he BusWorker class
+  # workers in the BusWorker class, and we don't want the underlying library
+  # interfering.
   class << Que::Worker
     def set_up_workers
     end
@@ -33,6 +34,8 @@ module QueBus
       BusWorker.mode = mode
     end
 
+    # Store subscription code to be run in the rake task
+    # after QueBus has been properly configured
     def jobs(&block)
       @jobs_array = (@jobs_array || []) << block
     end
