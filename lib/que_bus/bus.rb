@@ -7,7 +7,7 @@ module QueBus
 
     def publish(message, opts={})
       subs = subscribers
-      subs = subs.select{|s| s.topics.include? opts[:topics] } if opts[:topics]
+      subs = subs.select{|s| s.topics.include? opts[:topic] } if opts[:topic]
 
       subs.each do |sub|
         options = (opts || {}).clone
@@ -54,7 +54,7 @@ module QueBus
         klass.const_set "RUN", run_method
         def run(message,opts=nil)
           block = self.class.const_get("RUN")
-          block.call if block
+          block.call(message) if block
         end
       end
       class_name = "Job#{sub_id.gsub("-","_")}"

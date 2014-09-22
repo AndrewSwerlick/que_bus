@@ -37,6 +37,19 @@ describe Bus do
       end
     end
 
+    describe "when we subscribe to the bus with a block that takes an argument and publish a message" do
+      before do
+        bus.subscribe do |msg|
+          @event_recieved = msg[:value]
+        end
+        bus.publish({value: true})
+      end
+
+      it "recieved the event" do
+        @event_recieved.must_equal true
+      end
+    end
+
     describe "when we subscribe to the bus twice with a block and publish a message" do
       before do
         bus.subscribe do
@@ -71,14 +84,14 @@ describe Bus do
 
     describe "when we subscribe to a specific channel" do
       before do
-        bus.subscribe(:topics=> "foo") do
+        bus.subscribe(:topics=> :foo) do
           @foo_event_called = true
         end
       end
 
       describe "and we publish to the same channel" do
         before do
-          bus.publish("hey foo", :topics => "foo")
+          bus.publish("hey foo", :topic => :foo)
         end
 
         it "recieves the foo event" do
@@ -88,7 +101,7 @@ describe Bus do
 
       describe "and we publish on a different channel" do
         before do
-          bus.publish("hey foo",:topics=> "bar")
+          bus.publish("hey foo",:topic=> :bar)
         end
 
         it "does not recieve the foo event" do
