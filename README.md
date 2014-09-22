@@ -41,6 +41,7 @@ You can then subscribe to events by calling this buses subscribe method
 Whenever an event is published to the bus, the code inside of the block will be executed
 
 If you only want to subscribe to events for certain topics, you can pass the topics parameter
+
     bus.subscribe :my_subscription_name, :topics => [:foo, :bar]  do
       #do stuff....
     end
