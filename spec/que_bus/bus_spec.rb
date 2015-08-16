@@ -3,24 +3,20 @@ require 'spec_helper'
 describe QueBus::Bus do
   describe "when we create a new bus" do
     let(:bus) {QueBus::Bus.new }
-
     describe "and subscribe the bus" do
-      before do
-        @id = bus.subscribe
-      end
+      let(:result) {bus.subscribe params}
+      let(:params) { {} }
 
       it "gives us a subscription id" do
-        @id.wont_be_nil
-      end
-    end
-
-    describe "when we subscribe to the bus with our own id" do
-      before do
-        @id = bus.subscribe :test
+        result.wont_be_nil
       end
 
-      it "gives us the same id back" do
-        @id.must_equal :test
+      describe "with our own id" do
+        let(:params) {:test}
+
+        it "gives us the same id back" do
+          result.must_equal :test
+        end
       end
     end
 
@@ -117,6 +113,19 @@ describe QueBus::Bus do
         it "recieves the message" do
           @foo_event_called.must_equal true
         end
+      end
+    end
+
+    describe "when we subscribe to the bus with a class" do
+      before do
+        require 'fixtures/job_class'
+        @state = {}
+        bus.subscribe id: "test", class: TestClass
+        bus.publish @state
+      end
+
+      it "runs the classes run method and manipuates the state" do
+        @state[:event_recieved].must_equal true
       end
     end
   end

@@ -26,7 +26,7 @@ module QueBus
       topics = [*topics]
 
       sub_id = id || SecureRandom.uuid
-      const_name = create_class(sub_id.to_s, block)
+      const_name = options[:class] ? options[:class].name : create_class(sub_id.to_s, block)
       subscriber = Subscriber.find_by_subscriber_id(sub_id)
       subscriber = subscriber ||
         Subscriber.create(
