@@ -1,6 +1,7 @@
 CREATE TABLE que_bus_subscribers
 (
-  subscriber_id text        PRIMARY KEY,
+  id            serial      PRIMARY KEY,
+  subscriber_id text        UNIQUE,
   job_class     text        NOT NULL,
   topics        text
 );

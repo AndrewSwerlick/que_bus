@@ -1,8 +1,8 @@
-require_relative '../../spec_helper'
+require 'spec_helper'
 
-describe Bus do
+describe QueBus::Bus do
   describe "when we create a new bus" do
-    let(:bus) {Bus.new }
+    let(:bus) {QueBus::Bus.new }
 
     describe "and subscribe the bus" do
       before do
@@ -74,7 +74,7 @@ describe Bus do
           @event_recieved = true
         end
 
-        Bus.new.publish("test")
+        QueBus::Bus.new.publish("test")
       end
 
       it "recieves the event" do
@@ -119,8 +119,5 @@ describe Bus do
         end
       end
     end
-
-
-
   end
 end

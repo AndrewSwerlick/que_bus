@@ -2,11 +2,34 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'byebug'
 require 'database_cleaner'
-require_relative 'setup'
 require 'evented-spec'
+require 'active_record'
+require 'que_bus'
 
+unless ENV['DATABASE_URL']
+  require 'dotenv'
+  Dotenv.load
+end
+
+ActiveRecord::Base.establish_connection()
+Que.connection = ActiveRecord
 
 class MiniTest::Spec
+  def eventually(opts = {})
+    interval = opts.delete(:interval) || 0.001
+    timeout = opts.delete(:timeout) || 1
+    total = 0
+    begin
+      sleep interval
+      total = total + interval
+      yield
+    rescue MiniTest::Assertion => e
+      retry if total < timeout
+      raise e total >= timeout
+    end
+  end
+
+
   before :each do
     QueBus::BusWorker.wake_interval = 0.1
     DatabaseCleaner.strategy = :truncation
@@ -15,7 +38,7 @@ class MiniTest::Spec
       QueBus::Jobs.send(:remove_const, c)
     end
     Que.mode = :off
-    QueBus::BusWorker.mode = :async
+    QueBus.mode = :async
   end
 
   after :each do

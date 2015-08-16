@@ -2,10 +2,17 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'byebug'
 require 'database_cleaner'
-require_relative 'setup'
 require 'evented-spec'
+require 'active_record'
+require 'que_bus'
 
+unless ENV['DATABASE_URL']
+  require 'dotenv'
+  Dotenv.load
+end
 
+ActiveRecord::Base.establish_connection()
+Que.connection = ActiveRecord
 
 class MiniTest::Spec
   before :each do
@@ -15,7 +22,6 @@ class MiniTest::Spec
       QueBus::Jobs.send(:remove_const, c)
     end
     QueBus.mode = :sync
-
   end
 
   after :each do
