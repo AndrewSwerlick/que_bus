@@ -24,6 +24,7 @@ module QueBus
 
       topics = options[:topics]
       topics = [*topics]
+      id = id || options[:id]
 
       sub_id = id || SecureRandom.uuid
       const_name = options[:class] ? options[:class].name : create_class(sub_id.to_s, block)
