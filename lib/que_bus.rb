@@ -8,14 +8,6 @@ module QueBus
   autoload :Subscriber, "que_bus/subscriber"
   autoload :BusWorker, "que_bus/bus_worker"
 
-  # monkey patch Que so it doesn't generate it's own workers. We manage our own
-  # workers in the BusWorker class, and we don't want the underlying library
-  # interfering.
-  class << Que::Worker
-    def set_up_workers
-    end
-  end
-
   BusWorker.mode = :async
 
   class << self
