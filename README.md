@@ -99,7 +99,7 @@ configuration methods
 
 1. `topics` - `topics` takes a list of topic symbols defining which topics this listener will listen to
 2. `exec_method` - `exec_method` takes a symbol denoting which method should be called when a new event is
-published on any topic this class is listening too.
+published on any topic this class is listening to. If no method is supplied, this defaults to :run
 
 ### Using in rails
 The recommended way to use QueBus with rails is through the provided rake task.
