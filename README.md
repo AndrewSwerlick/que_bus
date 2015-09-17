@@ -91,6 +91,16 @@ To publish to only subscribers for a certain topic, call publish with the topic 
 
 Not you can only publish to a single topic at a time
 
+### Listeners
+Sometimes you may want to wrap all the logic for responding a an event into a single class.
+For that purpose, the QueBus library includes the `QueBus::Listener` module. To make a class
+listen for an event, simply include the `QueBus::Listener` module and then call the following two
+configuration methods
+
+1. `topics` - `topics` takes a list of topic symbols defining which topics this listener will listen to
+2. `exec_method` - `exec_method` takes a symbol denoting which method should be called when a new event is
+published on any topic this class is listening too.
+
 ### Using in rails
 The recommended way to use QueBus with rails is through the provided rake task.
 Once you have setup your subscribers in the initializer you can have a listener running
