@@ -31,7 +31,13 @@ module QueBus
         @topics
       end
 
+      def exec_method(method)
+        @method = method
+      end
+
       def get_execution_method
+        @method || :run
+      end
     end
   end
 end
