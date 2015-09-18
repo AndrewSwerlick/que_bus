@@ -13,6 +13,10 @@ module QueBus
           wrangler
         end
       end
+
+      def wake!
+        wake_all!
+      end
     end
   end
 end
