@@ -8,6 +8,7 @@ module QueBus
   autoload :Subscriber, "que_bus/subscriber"
   autoload :BusWorker, "que_bus/bus_worker"
   autoload :Listener, "que_bus/listener"
+  autoload :Publisher, "que_bus/publisher"
 
   BusWorker.mode = :async
 
