@@ -8,7 +8,11 @@ module QueBus
           def run(*args)
             ActiveRecord::Base.transaction do
               method = self.class.parent.get_execution_method
-              self.class.parent.send(method, args[0])
+              args_hash = {
+                message: args[0]
+                options: args[1]
+              }
+              self.class.parent.send(method, args_hash)
               destroy
             end
           end
