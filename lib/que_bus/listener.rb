@@ -10,6 +10,7 @@ module QueBus
               method = self.class.parent.get_execution_method
               final_args = case args[0]
                 when Hash
+                  binding.pry
                   args[0].merge(topic: args[1]["topic"])
                 else
                   [args[0], args[1]["topic"]]
