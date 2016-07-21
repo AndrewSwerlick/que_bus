@@ -3,6 +3,7 @@ require 'securerandom'
 require 'que'
 
 module QueBus
+  attr_accessor :subscription_namespace
   autoload :Migrations, 'que_bus/migrations'
   autoload :Bus, "que_bus/bus"
   autoload :Subscriber, "que_bus/subscriber"
@@ -11,6 +12,7 @@ module QueBus
   autoload :Publisher, "que_bus/publisher"
 
   BusWorker.mode = :async
+
 
   class << self
     attr_reader :jobs_array
