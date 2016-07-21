@@ -21,9 +21,6 @@ module QueBus
         end
         base.const_set(:Job, job)
 
-        def subscription_id
-          "#{QueBus.subscription_namespace}/#{self.name}"
-        end
       end
     end
 
@@ -31,6 +28,10 @@ module QueBus
       def subscribe
         bus = QueBus::Bus.new
         bus.subscribe id: self.subscription_id, class: self::Job, topics: self.topics_list
+      end
+
+      def subscription_id
+        "#{QueBus.subscription_namespace}/#{self.name}"
       end
 
       def topics(*topics)
