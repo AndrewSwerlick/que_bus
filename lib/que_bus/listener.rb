@@ -30,7 +30,7 @@ module QueBus
     module ClassMethods
       def subscribe
         bus = QueBus::Bus.new
-        bus.subscribe id: subscription_id, class: self::Job, topics: self.topics_list
+        bus.subscribe id: self.subscription_id, class: self::Job, topics: self.topics_list
       end
 
       def topics(*topics)
