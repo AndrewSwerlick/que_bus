@@ -3,7 +3,6 @@ require 'securerandom'
 require 'que'
 
 module QueBus
-  attr_accessor :subscription_namespace
   autoload :Migrations, 'que_bus/migrations'
   autoload :Bus, "que_bus/bus"
   autoload :Subscriber, "que_bus/subscriber"
@@ -16,6 +15,7 @@ module QueBus
 
   class << self
     attr_reader :jobs_array
+    attr_accessor :subscription_namespace
 
     def migrate!(version = {:version => Migrations::CURRENT_VERSION})
       Migrations.migrate!(version)
