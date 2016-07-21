@@ -20,13 +20,17 @@ module QueBus
           end
         end
         base.const_set(:Job, job)
+
+        def subscription_id
+          "#{QueBus.subscription_namespace}/#{self.name}"
+        end
       end
     end
 
     module ClassMethods
       def subscribe
         bus = QueBus::Bus.new
-        bus.subscribe id: self.name, class: self::Job, topics: self.topics_list
+        bus.subscribe id: subscription_id, class: self::Job, topics: self.topics_list
       end
 
       def topics(*topics)
