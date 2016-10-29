@@ -10,9 +10,6 @@ module QueBus
   autoload :Listener, "que_bus/listener"
   autoload :Publisher, "que_bus/publisher"
 
-  BusWorker.mode = :async
-
-
   class << self
     attr_reader :jobs_array
     attr_accessor :subscription_namespace
