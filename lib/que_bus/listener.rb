@@ -25,11 +25,11 @@ module QueBus
     end
 
     def save_id(args)
-      ActiveRecord::Base.connection.execute("insert into public.que_bus_completed_events values (?)")
+      QueBus::Event.execute("insert into public.que_bus_completed_events values (?)")
     end
 
     def has_run?(args)
-      result = ActiveRecord::Base.connection.execute("select count(id) from public.que_bus_completed_events where id=?", args["event_id"])
+      result = QueBus::Event.execute("select count(id) from public.que_bus_completed_events where id=?", args["event_id"])
       result.first > 0
     end
 

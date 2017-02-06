@@ -6,6 +6,7 @@ module QueBus
   autoload :Migrations, 'que_bus/migrations'
   autoload :Bus, "que_bus/bus"
   autoload :Subscriber, "que_bus/subscriber"
+  autoload :Event, "que_bus/event"
   autoload :BusWorker, "que_bus/bus_worker"
   autoload :Listener, "que_bus/listener"
   autoload :Publisher, "que_bus/publisher"
