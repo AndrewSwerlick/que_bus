@@ -7,6 +7,7 @@ module QueBus
 
     def publish(message, opts={})
       subs = subscribers
+      opts[:event_id] ||= SecureRandom.uuid
       subs = subs.select{|s| s.topics.include? opts[:topic] } if opts[:topic]
 
       subs.each do |sub|
@@ -29,7 +30,7 @@ module QueBus
       sub_id = id || SecureRandom.uuid
       const_name = options[:class] ? options[:class].name : create_class(sub_id.to_s, block)
       subscriber = Subscriber.find_by_subscriber_id(sub_id)
-      subscriber = subscriber || Subscriber.new(subscriber_id: sub_id)      
+      subscriber = subscriber || Subscriber.new(subscriber_id: sub_id)
       subscriber.topics = topics
       subscriber.job_class = const_name
       subscriber.save!
