@@ -10,9 +10,9 @@ module QueBus
               method = self.class.parent.get_execution_method
               final_args = case args[0]
                 when Hash
-                  args[0].merge(topic: args[1]["topic"])
+                  args[0].merge(topic: args[1]["topic"], event_id: args[1]["event_id"])
                 else
-                  [args[0], args[1]["topic"]]
+                  [args[0], args[1]["topic"], args[1]["event_id"]]
                 end
               self.class.parent.send(method, final_args)
               destroy
@@ -26,7 +26,7 @@ module QueBus
 
     module ClassMethods
       def has_run?(args)
-        QueBus::Event.where(id: args["event_id"], subscriber: self.subscription_id).count > 0
+        QueBus::Event.where(id: args[:event_id], subscriber: self.subscription_id).count > 0
       end
 
       def subscribe
@@ -35,7 +35,7 @@ module QueBus
       end
 
       def record_event_id(args)
-        QueBus::Event.create(id: SecureRandom.uuid, subscriber: self.subscription_id)
+        QueBus::Event.create(id: args[:event_id], subscriber: self.subscription_id)
       end
 
       def subscription_id
