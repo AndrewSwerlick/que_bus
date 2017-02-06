@@ -24,13 +24,12 @@ module QueBus
       end
     end
 
-    def save_id(args)
-      QueBus::Event.execute("insert into public.que_bus_completed_events values (?)")
+    def record_event_id(args)
+      QueBus::Event.create(id: SecureRandom.uuid)
     end
 
     def has_run?(args)
-      result = QueBus::Event.execute("select count(id) from public.que_bus_completed_events where id=?", args["event_id"])
-      result.first > 0
+      QueBus::Event.where(id: args["event_id"]).count > 0
     end
 
     module ClassMethods
