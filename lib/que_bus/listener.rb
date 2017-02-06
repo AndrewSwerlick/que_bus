@@ -24,18 +24,18 @@ module QueBus
       end
     end
 
-    def record_event_id(args)
-      QueBus::Event.create(id: SecureRandom.uuid, subscriber: self.class.subscription_id)
-    end
-
-    def has_run?(args)
-      QueBus::Event.where(id: args["event_id"], subscriber: self.class.subscription_id).count > 0
-    end
-
     module ClassMethods
+      def has_run?(args)
+        QueBus::Event.where(id: args["event_id"], subscriber: self.subscription_id).count > 0
+      end
+
       def subscribe
         bus = QueBus::Bus.new
         bus.subscribe id: self.subscription_id, class: self::Job, topics: self.topics_list
+      end
+
+      def record_event_id(args)
+        QueBus::Event.create(id: SecureRandom.uuid, subscriber: self.subscription_id)
       end
 
       def subscription_id
