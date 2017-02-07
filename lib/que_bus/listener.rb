@@ -26,7 +26,7 @@ module QueBus
 
     module ClassMethods
       def has_run?(args)
-        QueBus::Event.where(id: args[:event_id], subscriber: self.subscription_id).count > 0
+        QueBus::Event.where(event_id: args[:event_id], subscriber: self.subscription_id).count > 0
       end
 
       def subscribe
@@ -35,7 +35,7 @@ module QueBus
       end
 
       def record_event_id(args)
-        QueBus::Event.create(id: args[:event_id], subscriber: self.subscription_id)
+        QueBus::Event.create(event_id: args[:event_id], subscriber: self.subscription_id)
       end
 
       def subscription_id

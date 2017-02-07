@@ -1,5 +1,6 @@
 CREATE TABLE que_bus_completed_events
 (
-  id         UUID PRIMARY KEY,
-  subscriber text NOT NULL
+  id            serial      PRIMARY KEY,
+  event_id      UUID        NOT NULL,
+  subscriber    text        NOT NULL
 );
