@@ -116,6 +116,24 @@ describe QueBus::Bus do
       end
     end
 
+    describe "when we subscribe to all channels" do
+      before do
+        bus.subscribe(:topics=> "all") do
+          @foo_event_called = true
+        end
+      end
+
+      describe "and we publish on any channel" do
+        before do
+          bus.publish("hey foo",:topic=> :bar)
+        end
+
+        it "recieves the message" do
+          @foo_event_called.must_equal true
+        end
+      end
+    end
+
     describe "when we subscribe to the bus with a class" do
       before do
         require 'fixtures/job_class'

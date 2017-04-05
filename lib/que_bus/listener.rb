@@ -43,7 +43,7 @@ module QueBus
       end
 
       def topics(*topics)
-        @topics = topics
+        @topics = topics.map(&:to_s)
       end
 
       def topics_list

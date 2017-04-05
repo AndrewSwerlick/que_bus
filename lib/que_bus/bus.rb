@@ -8,7 +8,7 @@ module QueBus
     def publish(message, opts={})
       subs = subscribers
       opts[:event_id] ||= SecureRandom.uuid
-      subs = subs.select{|s| s.topics.include? opts[:topic] } if opts[:topic]
+      subs = subs.select{|s| s.topics.include?(opts[:topic]) || s.topics.map(&:to_sym).include?(:all) } if opts[:topic]
 
       subs.each do |sub|
         options = (opts || {}).clone
