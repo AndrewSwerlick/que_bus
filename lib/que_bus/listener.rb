@@ -8,11 +8,12 @@ module QueBus
           def run(*args)
             ActiveRecord::Base.transaction do
               method = self.class.parent.get_execution_method
+              event_id = args[1]["event_id"] || args[1][:event_id]
               final_args = case args[0]
                 when Hash
-                  args[0].merge(topic: args[1]["topic"], event_id: args[1]["event_id"])
+                  args[0].merge(topic: args[1]["topic"], event_id: event_id)
                 else
-                  [args[0], args[1]["topic"], args[1]["event_id"]]
+                  [args[0], args[1]["topic"], event_id]
                 end
               self.class.parent.send(method, final_args)
               destroy
